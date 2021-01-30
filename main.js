@@ -1,6 +1,10 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
+
+const colors = [
+  "#ff4", "#3d4", "#078"
+]
 
 let mainWindow
 
@@ -15,6 +19,18 @@ function createWindow() {
       nodeIntegration: false,
     }
   })
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate([
+    {
+      label: "Appearance",
+      submenu: colors.map(c => ({
+        label: c,
+        click() {
+          mainWindow.webContents.send('change-color', c)
+        }
+      }))
+    }
+  ]))
 
   mainWindow.loadFile('index.html')
 

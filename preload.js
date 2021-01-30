@@ -1,7 +1,12 @@
 const customTitlebar = require('custom-electron-titlebar')
+const { ipcRenderer } = require('electron')
 
 window.addEventListener('DOMContentLoaded', () => {
-  new customTitlebar.Titlebar()
+  const titlebar = new customTitlebar.Titlebar()
+
+  ipcRenderer.on('change-color', (evt, color) => {
+    titlebar.updateBackground(customTitlebar.Color.fromHex(color))
+  })
 
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)
