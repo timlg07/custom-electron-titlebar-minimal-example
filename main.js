@@ -2,6 +2,8 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
+const { performance } = require('perf_hooks')
+
 let mainWindow
 
 function createWindow() {
@@ -20,8 +22,16 @@ function createWindow() {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
+  let t0, t1
+
   mainWindow.on('closed', () => {
     mainWindow = null
+    t1 = performance.now()
+    console.log(t1 - t0)
+  })
+
+  mainWindow.on('close', () => {
+    t0 = performance.now()
   })
 }
 
