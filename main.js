@@ -10,6 +10,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    frame: false, // change to true to compare to normal electron close time.
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       enableRemoteModule: true,
@@ -32,6 +33,7 @@ function createWindow() {
 
   mainWindow.on('close', () => {
     t0 = performance.now()
+    // Destroy the window for short close time:
   })
 }
 
