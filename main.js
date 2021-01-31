@@ -28,7 +28,8 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
     t1 = performance.now()
-    console.log(t1 - t0)
+    const dt = t1 - t0
+    console.log(dt + 'ms')
   })
 
   mainWindow.on('close', () => {
