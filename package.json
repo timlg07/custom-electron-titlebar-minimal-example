@@ -11,7 +11,7 @@
   "author": "Tim L. Greller, Alex Torres",
   "license": "MIT",
   "dependencies": {
-    "custom-electron-titlebar": "3.2.5"
+    "custom-electron-titlebar": "3.2.6"
   },
   "devDependencies": {
     "electron": "latest",
