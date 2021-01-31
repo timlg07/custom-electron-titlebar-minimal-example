@@ -34,6 +34,7 @@ function createWindow() {
   mainWindow.on('close', () => {
     t0 = performance.now()
     // Destroy the window for short close time:
+    // mainWindow.destroy()
   })
 }
 
