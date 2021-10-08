@@ -14,7 +14,7 @@
     "custom-electron-titlebar": "latest"
   },
   "devDependencies": {
-    "electron": "latest",
+    "electron": "13",
     "electron-builder": "latest",
     "electron-packager": "latest"
   }
