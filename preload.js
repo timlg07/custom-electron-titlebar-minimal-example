@@ -1,8 +1,14 @@
-const { ipcRenderer } = require('electron')
-const customTitlebar = require('custom-electron-titlebar')
+// All of the Node.js APIs are available in the preload process.
+// It has the same sandbox as a Chrome extension.
+const { ipcRenderer } = require('electron');
+const path = require('path');
+const cet = require('..');
 
+let titlebar;
 
-function renderVersions() {
+window.addEventListener('DOMContentLoaded', () => {
+  ipcRenderer.send('request-application-menu')
+
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)
     if (element) element.innerText = text
@@ -11,22 +17,18 @@ function renderVersions() {
   for (const type of ['chrome', 'node', 'electron']) {
     replaceText(`${type}-version`, process.versions[type])
   }
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  ipcRenderer.send('request-application-menu')
-  renderVersions()
 })
 
 ipcRenderer.on('renderer-titlebar', (event, menu) => {
-  new customTitlebar.Titlebar({
+  titlebar = new cet.Titlebar({
     backgroundColor: cet.Color.fromHex("#388e3c"),
-    menu,
-    onMinimize:  () => ipcRenderer.send('window-event', 'window-minimize'),
-    onMaximize:  () => ipcRenderer.send('window-event', 'window-maximize'),
-    onClose:     () => ipcRenderer.send('window-event', 'window-close'),
+    icon: new URL(path.join(__dirname, '/assets/images', '/icon.svg')),
+    menu: menu,
+    onMinimize: () => ipcRenderer.send('window-event', 'window-minimize'),
+    onMaximize: () => ipcRenderer.send('window-event', 'window-maximize'),
+    onClose: () => ipcRenderer.send('window-event', 'window-close'),
     isMaximized: () => ipcRenderer.sendSync('window-event', 'window-is-maximized'),
-    onMenuItemClick: commandId => ipcRenderer.send('menu-event', commandId)
+    onMenuItemClick: (commandId) => ipcRenderer.send('menu-event', commandId)
   })
 })
 
